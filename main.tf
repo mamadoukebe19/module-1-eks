@@ -12,8 +12,9 @@ module "eks" {
   # Networking configuration.
   vpc_id                   = "vpc-023d1ab643dbf7derrere"
   subnet_ids               = ["subnet-0709cad2rererer"]
+  control_plane_subnet_ids = ["subnet-id", "subnet-id"]  
 
-  # EKS Managed Node Group configuration.
+ # EKS Managed Node Group configuration.
   eks_managed_node_groups = {
     eks-node = {
       min_size     = 1
@@ -28,6 +29,16 @@ module "eks" {
       }
     }
   }
-
-  tags = local.tags
+  # Clustrer add-ons configuration.
+  cluster_addons = {
+    coredns = {
+      addon_version = "v1.11.1-eksbuild.4"
+    }
+    kube-proxy = {
+      addon_version = "v1.29.0-eksbuild.1"
+    }
+    vpc-cni = {
+      addon_version = "v1.16.0-eksbuild.1"
+    }
+  }  tags = local.tags
 }
